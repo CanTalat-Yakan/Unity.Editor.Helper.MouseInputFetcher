@@ -18,14 +18,16 @@ namespace UnityEssentials
 
         [DllImport("user32.dll")]
         private static extern int GetCursorPos(ref MousePoint lpPoint);
-        public static Vector2 CurrentMousePosition => new Vector2(_mousePoint.x, _mousePoint.y);
+        public static Vector2 CurrentMousePosition => new(_mousePoint.x, _mousePoint.y);
 
 #elif UNITY_EDITOR_OSX
-        private static CGPoint _mousePoint;
-        private struct CGPoint{
-            public double X { get; set; }
-            public double Y { get; set; }
+        [StructLayout(LayoutKind.Sequential)]
+        private struct CGPoint
+        {
+            public double X;
+            public double Y;
         }
+        private static CGPoint _mousePoint;
 
         [DllImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics")]
         private static extern IntPtr CGEventCreate(IntPtr source);
@@ -35,8 +37,8 @@ namespace UnityEssentials
 
         [DllImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics")]
         private static extern void CFRelease(IntPtr obj);
-     
-        public static Vector2 CurrentMousePosition => new Vector2((float)_mousePoint.X, (float)_mousePoint.Y);
+
+        public static Vector2 CurrentMousePosition => new((float)_mousePoint.X, (float)_mousePoint.Y);
 #endif
 
         static MouseInputFetcher() =>
@@ -48,7 +50,7 @@ namespace UnityEssentials
             GetCursorPos(ref _mousePoint);
 #elif UNITY_EDITOR_OSX
             var theEvent = CGEventCreate(IntPtr.Zero);
-            var point = CGEventGetLocation(theEvent);
+            _mousePoint = CGEventGetLocation(theEvent);
             CFRelease(theEvent);
 #endif
         }
