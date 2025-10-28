@@ -1,13 +1,11 @@
 {
   "name": "com.unityessentials.mouseinputfetcher",
   "version": "1.0.0",
-  "displayName": "UnityEssentials MouseInputFetcher",
+  "displayName": "Unity Editor Helper MouseInputFetcher",
   "description": "This is a part of the UnityEssentials Ecosystem",
   "unity": "6000.0",
   "unityRelease": null,
-  "dependencies": {
-    "com.unityessentials.core": "1.0.0"
-  },
+  "dependencies": {},
   "keywords": [],
   "author": {
     "name": "Unity Essentials",
